@@ -1,5 +1,7 @@
 package org.helloworldmvc.contract;
 
+import java.io.IOException;
+
 public interface IModel {
-	public String getHelloworld();
+	public String getHelloWorld() throws IOException;
 }

@@ -9,16 +9,20 @@ import java.io.IOException;
 public class DAOHelloWorld {
 
 	private String FileName = "HelloWorld.txt";
-	private String helloWorldMessage = null;
-	private static DAOHelloWorld instance;
+	private String helloWorldMessage = "toto";
+	private static DAOHelloWorld instance = null;
 
-	public void DAOHelloWorld() throws IOException {
+	public DAOHelloWorld() throws IOException {
 		readFile();
 	}
 
-	public static DAOHelloWorld getInstance() {
+	public static DAOHelloWorld getInstance() throws IOException {
 		if (instance == null) {
+			try {
 			setInstance(new DAOHelloWorld());
+			} catch (final IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return instance;
 	}
@@ -28,14 +32,20 @@ public class DAOHelloWorld {
 	}
 
 	private void readFile() throws IOException {
-		File file = new File("target/");
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String line;
-		line = br.readLine();
-		br.close();
+		File file = new File(FileName);
+		try {
+		FileReader fileReader = new FileReader(file);
+		BufferedReader br = new BufferedReader(fileReader);
+		this.setHelloWorldMessage(br.readLine());
+		} catch (final FileNotFoundException e) {
+			System.err.println("le fichier n'a pas ete trouvé");
+		} catch (final IOException e) {
+			System.err.println("impossible de lire");
+		}
 	}
 
 	public String getHelloWorldMessage() {
+		
 		return helloWorldMessage;
 	}
 
